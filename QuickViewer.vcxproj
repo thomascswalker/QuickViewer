@@ -81,28 +81,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="contentbrowseritem.cpp" />
-    <ClCompile Include="contentbrowsermodel.cpp" />
-    <ClCompile Include="fileloader.cpp" />
-    <ClCompile Include="framebuffer.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="quickviewer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="QuickViewer.ui" />
-  </ItemGroup>
-  <ItemGroup>
     <QtRcc Include="QuickViewer.qrc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="contentbrowsermodel.h" />
-    <ClInclude Include="contentbrowseritem.h" />
-    <ClInclude Include="fileloader.h" />
-    <QtMoc Include="framebuffer.h" />
-    <QtMoc Include="quickviewer.h" />
+    <QtMoc Include="source\contentbrowsermodel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="source\filelistmodel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\contentbrowseritem.h" />
+    <ClInclude Include="source\fileloader.h" />
+    <QtMoc Include="source\quickviewer.h" />
+    <QtMoc Include="source\framebuffer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\contentbrowseritem.cpp" />
+    <ClCompile Include="source\contentbrowsermodel.cpp" />
+    <ClCompile Include="source\filelistmodel.cpp" />
+    <ClCompile Include="source\fileloader.cpp" />
+    <ClCompile Include="source\framebuffer.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\quickviewer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ui\quickviewer.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
