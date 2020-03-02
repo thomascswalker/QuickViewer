@@ -5,6 +5,7 @@
 #include "fileloader.h"
 #include "framebuffer.h"
 #include "contentbrowsermodel.h"
+#include "propertiesmodel.h"
 
 #include <QtGlobal>
 #include <QDebug>
@@ -56,6 +57,7 @@ private:
 	Framebuffer* buffer;
 	QFileSystemModel* fileModel;
 	ContentBrowserModel* contentModel;
+	PropertiesModel* propertiesModel;
 
 	QGraphicsScene* scene;
 	QGraphicsPixmapItem* scenePixmap;

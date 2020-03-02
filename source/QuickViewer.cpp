@@ -70,11 +70,15 @@ void QuickViewer::setupModels()
 
 	ui->lineEdit->setText(fileModel->rootPath());
 	
-
 	// Setup the model for currently-loaded
 	// file viewing and loading.
 	contentModel = new ContentBrowserModel();
 	ui->contentBrowserView->setModel(contentModel);
+
+	// Setup the model for currently-loaded
+	// file viewing and loading.
+	propertiesModel = new PropertiesModel();
+	ui->contentPropertiesView->setModel(propertiesModel);
 }
 
 /*

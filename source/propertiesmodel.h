@@ -1,5 +1,5 @@
-#ifndef	CONTENTBROWSERMODEL_H
-#define CONTENTBROWSERMODEL_H
+#ifndef	PROPERTIESMODEL_H
+#define PROPERTIESMODEL_H
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -7,32 +7,29 @@
 
 #include "contentbrowseritem.h"
 
-class ContentBrowserModel : public QAbstractListModel
+class PropertiesModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    enum ContentBrowserRoles {
+    enum PropertiesRoles {
         IconRole = Qt::UserRole + 1,
         NameRole = Qt::UserRole + 2,
         PathRole = Qt::UserRole + 3,
         CacheKeyRole = Qt::UserRole + 4
     };
 
-    ContentBrowserModel(QObject* parent = 0);
+    PropertiesModel(QObject* parent = 0);
 
-    void addContentItem(const ContentItem& item);
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     int columnCount(const QModelIndex& parent) const;
     QVariant data(const QModelIndex& index, int role) const;
-    QVariant getData(const QModelIndex& index, int role) const;
-    bool setData(const QModelIndex& index, const QVariant& value, int role);
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 protected:
     QHash<int, QByteArray> roleNames() const;
 
 private:
-    QList<ContentItem> mContentItems;
+    QList<ContentItem> mProperties;
 };
-
 
 #endif

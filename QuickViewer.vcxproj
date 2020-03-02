@@ -95,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="source\contentbrowseritem.h" />
     <ClInclude Include="source\fileloader.h" />
+    <QtMoc Include="source\propertiesmodel.h" />
     <QtMoc Include="source\quickviewer.h" />
     <QtMoc Include="source\framebuffer.h" />
   </ItemGroup>
@@ -105,6 +106,7 @@
     <ClCompile Include="source\fileloader.cpp" />
     <ClCompile Include="source\framebuffer.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\propertiesmodel.cpp" />
     <ClCompile Include="source\quickviewer.cpp" />
   </ItemGroup>
   <ItemGroup>

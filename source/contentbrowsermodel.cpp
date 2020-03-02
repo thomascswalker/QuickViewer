@@ -8,13 +8,13 @@ ContentBrowserModel::ContentBrowserModel(QObject* parent)
 void ContentBrowserModel::addContentItem(const ContentItem& item)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    m_ContentItems << item;
+    mContentItems << item;
     endInsertRows();
 }
 
 int ContentBrowserModel::rowCount(const QModelIndex& parent) const
 {
-    return m_ContentItems.count();
+    return mContentItems.count();
 }
 
 int ContentBrowserModel::columnCount(const QModelIndex& parent) const
@@ -29,7 +29,7 @@ QVariant ContentBrowserModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
         
-    if (index.row() >= m_ContentItems.size() || index.row() < 0)
+    if (index.row() >= mContentItems.size() || index.row() < 0)
     {
         return QVariant();
     }
@@ -41,7 +41,7 @@ QVariant ContentBrowserModel::data(const QModelIndex& index, int role) const
 
     if (role != Qt::CheckStateRole)
     {
-        ContentItem item = m_ContentItems.at(index.row());
+        ContentItem item = mContentItems.at(index.row());
         if (index.column() == 0)
         {
             return item.GetIcon();
@@ -57,7 +57,7 @@ QVariant ContentBrowserModel::data(const QModelIndex& index, int role) const
 
 QVariant ContentBrowserModel::getData(const QModelIndex& index, int role) const
 {
-    ContentItem item = m_ContentItems.at(index.row());
+    ContentItem item = mContentItems.at(index.row());
 
     if (role == IconRole)
     {

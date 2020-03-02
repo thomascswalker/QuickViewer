@@ -45,6 +45,9 @@
     <QtMoc Include="source\quickviewer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="source\propertiesmodel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\fileloader.h">
@@ -74,6 +77,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\quickviewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\propertiesmodel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
