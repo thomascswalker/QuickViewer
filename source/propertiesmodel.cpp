@@ -3,6 +3,10 @@
 PropertiesModel::PropertiesModel(QObject* parent)
     : QAbstractListModel(parent)
 {
+    addProperty(QString("Name"), QVariant());
+    addProperty(QString("Path"), QVariant());
+    addProperty(QString("Size"), QVariant());
+    addProperty(QString("Type"), QVariant());
 }
 
 int PropertiesModel::rowCount(const QModelIndex& parent) const
@@ -13,6 +17,18 @@ int PropertiesModel::rowCount(const QModelIndex& parent) const
 int PropertiesModel::columnCount(const QModelIndex& parent) const
 {
     return 2;
+}
+
+void PropertiesModel::addProperty(const QString name, const QVariant value)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+
+    PropertyStruct properties;
+    properties.mProperty = name;
+    properties.mValue = value;
+    mProperties << properties;
+
+    endInsertRows();
 }
 
 QVariant PropertiesModel::data(const QModelIndex& index, int role) const
@@ -27,21 +43,16 @@ QVariant PropertiesModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    if (index.column() == 1 && role == Qt::TextAlignmentRole)
-    {
-        return Qt::AlignLeft;
-    }
-
     if (role != Qt::CheckStateRole)
     {
-        ContentItem item = mProperties.at(index.row());
+        PropertyItem item = mProperties.at(index.row());
         if (index.column() == 0)
         {
-            return item.GetIcon();
+            return item.GetProperty();
         }
         else if (index.column() == 1)
         {
-            return item.GetName();
+            return item.GetValue();
         }
     }
 
@@ -65,9 +76,7 @@ QVariant PropertiesModel::headerData(int section, Qt::Orientation orientation, i
 QHash<int, QByteArray> PropertiesModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[IconRole] = "icon";
-    roles[NameRole] = "name";
-    roles[PathRole] = "path";
-    roles[CacheKeyRole] = "cachekey";
+    roles[PropRole] = "property";
+    roles[ValueRole] = "value";
     return roles;
 }

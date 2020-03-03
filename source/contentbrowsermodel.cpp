@@ -33,11 +33,6 @@ QVariant ContentBrowserModel::data(const QModelIndex& index, int role) const
     {
         return QVariant();
     }
-    
-    if (index.column() == 1 && role == Qt::TextAlignmentRole)
-    {
-        return Qt::AlignLeft;
-    }
 
     if (role != Qt::CheckStateRole)
     {

@@ -56,6 +56,9 @@
     <ClInclude Include="source\contentbrowseritem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\propertiesitem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\contentbrowseritem.cpp">
@@ -80,6 +83,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\propertiesmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\propertiesitem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
