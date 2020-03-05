@@ -320,6 +320,8 @@ void QuickViewer::on_loadFilesClicked()
 				itemProps.mPath = filepath;
 				itemProps.mCacheKey = cachekey;
 
+				// Once the item has been created, we want to add it
+				// to the content browser list of items
 				ContentItem item(itemProps);
 				contentModel->addContentItem(item);
 			}
