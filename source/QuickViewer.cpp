@@ -361,6 +361,8 @@ void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 	scene->clear();
 	scenePixmap = scene->addPixmap(pixmap);
 	scene->setSceneRect(scene->itemsBoundingRect());
+
+	propertiesModel->setData(index, QVariant("test"), PropertiesModel::ValueRole);
 }
 
 /*
@@ -382,5 +384,9 @@ void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 void QuickViewer::on_contentBrowserItemSelected(const QItemSelection& fromItem, const QItemSelection& toItem)
 {
 	QModelIndexList indexes = fromItem.indexes();
-	on_contentBrowserItemClicked(indexes[0]);
+	QModelIndex index = indexes[0];
+	on_contentBrowserItemClicked(index);
+
+	QVariant data = contentModel->getData(index, ContentBrowserModel::NameRole);
+	propertiesModel->setData(index, data, PropertiesModel::ValueRole);
 }

@@ -43,6 +43,11 @@ QVariant PropertiesModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+    if (role == Qt::TextAlignmentRole)
+    {
+        return Qt::AlignLeft;
+    }
+        
     if (role != Qt::CheckStateRole)
     {
         PropertyItem item = mProperties.at(index.row());
@@ -57,6 +62,17 @@ QVariant PropertiesModel::data(const QModelIndex& index, int role) const
     }
 
     return QVariant();
+}
+
+bool PropertiesModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if (role == ValueRole)
+    {
+        qDebug() << value;
+        PropertyItem item = mProperties.at(index.row());
+        mProperties.replace(1, item);
+    }
+    return true;
 }
 
 QVariant PropertiesModel::headerData(int section, Qt::Orientation orientation, int role) const
