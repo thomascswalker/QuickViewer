@@ -50,28 +50,10 @@ QVariant ContentBrowserModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-QVariant ContentBrowserModel::getData(const QModelIndex& index, int role) const
+ContentItem ContentBrowserModel::getItem(const QModelIndex& index) const
 {
     ContentItem item = mContentItems.at(index.row());
-
-    if (role == IconRole)
-    {
-        return item.GetIcon();
-    }
-    else if (role == NameRole)
-    {
-        return item.GetName();
-    }
-    else if (role == PathRole)
-    {
-        return item.GetPath();
-    }
-    else if (role == CacheKeyRole)
-    {
-        return item.GetCacheKey();
-    }
-
-    return QVariant();
+    return item;
 }
 
 bool ContentBrowserModel::setData(const QModelIndex& index, const QVariant& value, int role)

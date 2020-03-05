@@ -356,15 +356,21 @@ void QuickViewer::on_loadFilesClicked()
 */
 void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 {
+	ContentItem item = contentModel->getItem(index);
 	QPixmap pixmap;
-	QVariant cachekey = contentModel->getData(index, ContentBrowserModel::CacheKeyRole);
+	QVariant cachekey = item.GetCacheKey();
 	QPixmapCache::find(cachekey.toByteArray(), &pixmap);
 
 	scene->clear();
 	scenePixmap = scene->addPixmap(pixmap);
 	scene->setSceneRect(scene->itemsBoundingRect());
 
-	propertiesModel->setData(index, QVariant("test"), PropertiesModel::ValueRole);
+	// This is failing
+	propertiesModel->setData(QModelIndex(), QVariant(item.GetName()), PropertiesModel::ValueRole);
+
+	// Not sure why this returns 255 indexes of things?
+	//QMap<int, QVariant> itemData = contentModel->itemData(index);
+	//qDebug() << itemData;
 }
 
 /*
@@ -388,7 +394,4 @@ void QuickViewer::on_contentBrowserItemSelected(const QItemSelection& fromItem, 
 	QModelIndexList indexes = fromItem.indexes();
 	QModelIndex index = indexes[0];
 	on_contentBrowserItemClicked(index);
-
-	QVariant data = contentModel->getData(index, ContentBrowserModel::NameRole);
-	propertiesModel->setData(index, data, PropertiesModel::ValueRole);
 }
