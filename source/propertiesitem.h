@@ -18,6 +18,7 @@ public:
 
     QString GetProperty() const;
     QVariant GetValue() const;
+    void SetValue(QVariant value);
 
 private:
     QString mProperty;

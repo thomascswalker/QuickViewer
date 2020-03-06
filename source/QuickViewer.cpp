@@ -366,7 +366,28 @@ void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 	scene->setSceneRect(scene->itemsBoundingRect());
 
 	// This is failing
-	propertiesModel->setData(QModelIndex(), QVariant(item.GetName()), PropertiesModel::ValueRole);
+	for (int i = 0; i < propertiesModel->rowCount(); i++)
+	{
+		QVariant value;
+
+		switch (i)
+		{
+			case 0:
+				value = item.GetName();
+				break;
+			case 1:
+				value = item.GetPath();
+				break;
+			case 2:
+				value = QVariant("size");
+				break;
+			case 3:
+				value = QVariant("type");
+				break;
+		}
+		propertiesModel->setData(propertiesModel->index(i, 1), value, PropertiesModel::ValueRole);
+	}
+	
 
 	// Not sure why this returns 255 indexes of things?
 	//QMap<int, QVariant> itemData = contentModel->itemData(index);

@@ -66,12 +66,18 @@ QVariant PropertiesModel::data(const QModelIndex& index, int role) const
 
 bool PropertiesModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if (role == ValueRole)
+    if (index.column() == 0)
+    {
+        return false;
+    }
+
+    if (index.isValid() && role == ValueRole)
     {
         qDebug() << value;
-        PropertyItem item = mProperties.at(index.row());
-        mProperties.replace(1, item);
+        mProperties[index.row()].SetValue(value);
+        emit dataChanged(index, index);
     }
+
     return true;
 }
 

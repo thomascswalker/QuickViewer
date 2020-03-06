@@ -15,3 +15,8 @@ QVariant PropertyItem::GetValue() const
 {
     return mValue;
 }
+
+void PropertyItem::SetValue(QVariant value)
+{
+    mValue = value;
+}
