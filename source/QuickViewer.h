@@ -42,6 +42,7 @@ public slots:
 	void resizeEvent(QResizeEvent*);
 
 	void on_zoomPercentChanged(int percent);
+	void on_zoomMiddleMouseScroll(double zoom);
 	void on_directoryLoaded(QString path);
 	void on_actionAboutClicked();
 	void on_lineEditChanged(QString path);

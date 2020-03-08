@@ -26,6 +26,7 @@ QuickViewer::QuickViewer(QWidget *parent) :
 	// Connections for extended GUI items
 	(void)connect(ui->contentBrowserView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(on_contentBrowserItemClicked(const QModelIndex&)));
 	(void)connect(ui->contentBrowserView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(on_contentBrowserItemSelected(const QItemSelection&, const QItemSelection&)));
+	(void)connect(ui->framebuffer, &Framebuffer::middleMouseScroll, this, &QuickViewer::on_zoomMiddleMouseScroll);
 
 	// Connections for models
 	(void)connect(fileModel, SIGNAL(directoryLoaded(QString)), this, SLOT(on_directoryLoaded(QString)));
@@ -140,6 +141,19 @@ void QuickViewer::on_zoomPercentChanged(int percent)
 	qreal scaleFactor = scaleTo / currentScale;
 	currentScale = scaleTo;
 	ui->framebuffer->scale(scaleFactor, scaleFactor);
+}
+
+/*
+	 Returns void.
+
+	 This is the action event for scaling the framebuffer from clicking
+	 the zoomPercent spinner. This is to give finer control over zooming
+	 compared to using the middle mouse to scroll.
+ */
+void QuickViewer::on_zoomMiddleMouseScroll(double zoom)
+{
+	int percent = zoom * 100;
+	ui->zoomPercent->setValue(percent);
 }
 
 /*

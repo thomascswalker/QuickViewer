@@ -17,11 +17,16 @@ public:
     explicit Framebuffer(QWidget* parent = Q_NULLPTR);
     ~Framebuffer();
 
-    virtual void wheelEvent(QWheelEvent* event);
+signals:
+    void middleMouseScroll(double zoom);
 
 private:
     QGraphicsScene m_scene;
     QGraphicsPixmapItem m_item;
+    double mCurrentZoom;
+
+protected:
+    void wheelEvent(QWheelEvent* event);
 };
 
 #endif
