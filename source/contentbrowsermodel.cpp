@@ -41,7 +41,7 @@ QVariant ContentBrowserModel::data(const QModelIndex& index, int role) const
         {
             return item.GetIcon();
         }
-        else if (index.column() == 1)
+        else if (index.column() == 1 && role != Qt::DecorationRole)
         {
             return item.GetName();
         }

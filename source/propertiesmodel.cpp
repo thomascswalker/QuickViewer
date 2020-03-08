@@ -5,8 +5,8 @@ PropertiesModel::PropertiesModel(QObject* parent)
 {
     addProperty(QString("Name"), QVariant());
     addProperty(QString("Path"), QVariant());
-    addProperty(QString("Size"), QVariant());
-    addProperty(QString("Type"), QVariant());
+    //addProperty(QString("Size"), QVariant());
+    //addProperty(QString("Type"), QVariant());
 }
 
 int PropertiesModel::rowCount(const QModelIndex& parent) const
@@ -33,7 +33,7 @@ void PropertiesModel::addProperty(const QString name, const QVariant value)
 
 QVariant PropertiesModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid())
+    if (!index.isValid() || role == Qt::DecorationRole)
     {
         return QVariant();
     }
@@ -73,7 +73,6 @@ bool PropertiesModel::setData(const QModelIndex& index, const QVariant& value, i
 
     if (index.isValid() && role == ValueRole)
     {
-        qDebug() << value;
         mProperties[index.row()].SetValue(value);
         emit dataChanged(index, index);
     }

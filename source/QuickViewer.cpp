@@ -365,7 +365,8 @@ void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 	scenePixmap = scene->addPixmap(pixmap);
 	scene->setSceneRect(scene->itemsBoundingRect());
 
-	// This is failing
+	// For each property in the selected item, we need to
+	// update the property view row-by-row.
 	for (int i = 0; i < propertiesModel->rowCount(); i++)
 	{
 		QVariant value;
