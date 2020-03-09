@@ -14,8 +14,15 @@ class Framebuffer : public QGraphicsView
     Q_OBJECT
 
 public:
+    enum Colorspaces {
+        Linear = Qt::UserRole,
+        sRGB = Qt::UserRole + 1
+    };
+
     explicit Framebuffer(QWidget* parent = Q_NULLPTR);
     ~Framebuffer();
+
+    void SetColorspace(int role);
 
 signals:
     void middleMouseScroll(double zoom);
@@ -24,6 +31,7 @@ private:
     QGraphicsScene m_scene;
     QGraphicsPixmapItem m_item;
     double mCurrentZoom;
+    int mColorspace;
 
 protected:
     void wheelEvent(QWheelEvent* event);

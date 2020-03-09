@@ -14,22 +14,24 @@ QuickViewer::QuickViewer(QWidget *parent) :
 	setupPalette();
 
 	// Connections for menu bar actions
-	(void)connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(on_actionAboutClicked()));
+	(void)connect(ui->actionAbout, &QAction::triggered, this, &QuickViewer::on_actionAboutClicked);
 
 	// Connections for standard GUI items
-	(void)connect(ui->zoomPercent, SIGNAL(valueChanged(int)), this, SLOT(on_zoomPercentChanged(int)));
-	(void)connect(ui->lineEdit, SIGNAL(textChanged(QString)), this, SLOT(on_lineEditChanged(QString)));
-	(void)connect(ui->fileView, SIGNAL(clicked(QModelIndex)), this, SLOT(on_fileViewItemClicked(QModelIndex)));
-	(void)connect(ui->folderUp, SIGNAL(clicked()), this, SLOT(on_folderUpClicked()));
-	(void)connect(ui->loadFiles, SIGNAL(clicked()), this, SLOT(on_loadFilesClicked()));
+	(void)connect(ui->zoomPercent, qOverload<int>(&QSpinBox::valueChanged), this, &QuickViewer::on_zoomPercentChanged);
+	(void)connect(ui->lineEdit, &QLineEdit::textChanged, this, &QuickViewer::on_lineEditChanged);
+	(void)connect(ui->fileView, &QTableView::clicked, this, &QuickViewer::on_fileViewItemClicked);
+	(void)connect(ui->folderUp, &QPushButton::clicked, this, &QuickViewer::on_folderUpClicked);
+	(void)connect(ui->loadFiles, &QPushButton::clicked, this, &QuickViewer::on_loadFilesClicked);
+	(void)connect(ui->colorSpace, qOverload<int>(&QComboBox::currentIndexChanged), ui->framebuffer, &Framebuffer::SetColorspace);
 
 	// Connections for extended GUI items
-	(void)connect(ui->contentBrowserView, SIGNAL(clicked(const QModelIndex&)), this, SLOT(on_contentBrowserItemClicked(const QModelIndex&)));
-	(void)connect(ui->contentBrowserView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(on_contentBrowserItemSelected(const QItemSelection&, const QItemSelection&)));
+	(void)connect(ui->contentBrowserView, &QTableView::clicked, this, &QuickViewer::on_contentBrowserItemClicked);
+	(void)connect(ui->contentBrowserView->selectionModel(), qOverload<const QItemSelection&, const QItemSelection&>(&QItemSelectionModel::selectionChanged), this, &QuickViewer::on_contentBrowserItemSelected);
 	(void)connect(ui->framebuffer, &Framebuffer::middleMouseScroll, this, &QuickViewer::on_zoomMiddleMouseScroll);
 
 	// Connections for models
-	(void)connect(fileModel, SIGNAL(directoryLoaded(QString)), this, SLOT(on_directoryLoaded(QString)));
+	(void)connect(fileModel, &QFileSystemModel::directoryLoaded, this, &QuickViewer::on_directoryLoaded);
+
 }
 
 /*

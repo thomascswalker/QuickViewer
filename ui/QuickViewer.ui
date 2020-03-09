@@ -135,16 +135,16 @@
            </sizepolicy>
           </property>
           <property name="currentText">
-           <string>sRGB</string>
+           <string>Linear</string>
           </property>
           <item>
            <property name="text">
-            <string>sRGB</string>
+            <string>Linear</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Linear</string>
+            <string>sRGB</string>
            </property>
           </item>
          </widget>

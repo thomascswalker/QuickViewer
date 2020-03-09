@@ -4,11 +4,34 @@ Framebuffer::Framebuffer(QWidget* parent) :
     QGraphicsView(parent)
 {
     mCurrentZoom = 1.0;
+    mColorspace = Linear;
 }
    
 Framebuffer::~Framebuffer()
 {
 
+}
+
+/*
+    Returns void.
+
+    Sets the colorspace of the currently-viewed image. This loads
+    the current image, converts to the chosen colorspace, then
+    sets the current scene image to the converted image.
+*/
+void Framebuffer::SetColorspace(int role)
+{
+    mColorspace = Qt::UserRole + role;
+
+    switch (mColorspace)
+    {
+        case Linear:
+            qDebug() << "Linear";
+            break;
+        case sRGB:
+            qDebug() << "sRGB";
+            break;
+    }
 }
 
 /*
