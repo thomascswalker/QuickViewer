@@ -8,6 +8,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
 #include <QWheelEvent>
+#include <QColorSpace>
 
 class Framebuffer : public QGraphicsView
 {
@@ -21,15 +22,15 @@ public:
 
     explicit Framebuffer(QWidget* parent = Q_NULLPTR);
     ~Framebuffer();
-
+    void AddPixmap(QPixmap pixmap);
     void SetColorspace(int role);
 
 signals:
     void middleMouseScroll(double zoom);
 
 private:
-    QGraphicsScene m_scene;
-    QGraphicsPixmapItem m_item;
+    QGraphicsScene* mScene;
+    QPixmap* mPixmap;
     double mCurrentZoom;
     int mColorspace;
 

@@ -60,9 +60,6 @@ private:
 	ContentBrowserModel* contentModel;
 	PropertiesModel* propertiesModel;
 
-	QGraphicsScene* scene;
-	QGraphicsPixmapItem* scenePixmap;
-
 	qreal currentScale = 1.0;
 	QSize origSize;
 	QSize dispSize;

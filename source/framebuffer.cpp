@@ -5,11 +5,24 @@ Framebuffer::Framebuffer(QWidget* parent) :
 {
     mCurrentZoom = 1.0;
     mColorspace = Linear;
+
+    mScene = new QGraphicsScene(this);
+    mPixmap = new QPixmap("");
+    mScene->addPixmap(*mPixmap);
+    setScene(mScene);
 }
    
 Framebuffer::~Framebuffer()
 {
 
+}
+
+void Framebuffer::AddPixmap(QPixmap pixmap)
+{
+    mPixmap = new QPixmap(pixmap);
+    mScene->clear();
+    mScene->addPixmap(pixmap);
+    mScene->setSceneRect(mScene->itemsBoundingRect());
 }
 
 /*
@@ -23,15 +36,23 @@ void Framebuffer::SetColorspace(int role)
 {
     mColorspace = Qt::UserRole + role;
 
+    QImage image(mPixmap->toImage());
+    QColorSpace colorspace;
+
     switch (mColorspace)
     {
         case Linear:
-            qDebug() << "Linear";
+            colorspace = QColorSpace(QColorSpace::SRgbLinear);
+            image.convertToColorSpace(colorspace);
             break;
         case sRGB:
-            qDebug() << "sRGB";
+            colorspace = QColorSpace(QColorSpace::SRgb);
+            image.convertToColorSpace(colorspace);
             break;
     }
+
+    QPixmap outPixmap = QPixmap::fromImage(image);
+    AddPixmap(outPixmap);
 }
 
 /*

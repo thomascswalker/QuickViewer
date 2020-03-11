@@ -50,10 +50,7 @@ QuickViewer::~QuickViewer()
 */
 void QuickViewer::setupFramebuffer()
 {
-	scene = new QGraphicsScene(this);
-	ui->framebuffer->setScene(scene);
-	QPixmap emptyPixmap("");
-	scenePixmap = scene->addPixmap(emptyPixmap);
+
 }
 
 /*
@@ -319,9 +316,8 @@ void QuickViewer::on_loadFilesClicked()
 			if (!pixmap.isNull())
 			{
 				i++;
-				scene->clear();
-				scenePixmap = scene->addPixmap(pixmap);
-				scene->setSceneRect(scene->itemsBoundingRect());
+
+				ui->framebuffer->AddPixmap(pixmap);
 
 				// Get the stripped filename
 				QFileInfo fileInfo(QFile(filepath).fileName());
@@ -377,9 +373,7 @@ void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 	QVariant cachekey = item.GetCacheKey();
 	QPixmapCache::find(cachekey.toByteArray(), &pixmap);
 
-	scene->clear();
-	scenePixmap = scene->addPixmap(pixmap);
-	scene->setSceneRect(scene->itemsBoundingRect());
+	ui->framebuffer->AddPixmap(pixmap);
 
 	// For each property in the selected item, we need to
 	// update the property view row-by-row.
