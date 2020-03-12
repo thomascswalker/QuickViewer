@@ -24,6 +24,7 @@ public:
     ~Framebuffer();
     void AddPixmap(QPixmap pixmap);
     void SetColorspace(int role);
+    void SetExposure(double value);
 
 signals:
     void middleMouseScroll(double zoom);

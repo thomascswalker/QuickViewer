@@ -36,7 +36,7 @@ void Framebuffer::SetColorspace(int role)
 {
     mColorspace = Qt::UserRole + role;
 
-    QImage image(mPixmap->toImage());
+    QImage image(std::move(mPixmap)->toImage());
     QColorSpace colorspace;
 
     switch (mColorspace)
@@ -50,6 +50,24 @@ void Framebuffer::SetColorspace(int role)
             image.convertToColorSpace(colorspace);
             break;
     }
+
+    QPixmap outPixmap = QPixmap::fromImage(image);
+    AddPixmap(outPixmap);
+}
+
+/*
+    Returns void.
+
+    Sets the colorspace of the currently-viewed image. This loads
+    the current image, converts to the chosen colorspace, then
+    sets the current scene image to the converted image.
+*/
+void Framebuffer::SetExposure(double value)
+{
+    QImage image(std::move(mPixmap)->toImage());
+    double red, green, blue;
+    int pixelsCount = image.width() * image.height();
+    unsigned int* pixels = (unsigned int*)image.bits();
 
     QPixmap outPixmap = QPixmap::fromImage(image);
     AddPixmap(outPixmap);
