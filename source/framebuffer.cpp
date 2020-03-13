@@ -20,6 +20,15 @@ Framebuffer::~Framebuffer()
 void Framebuffer::AddPixmap(QPixmap pixmap)
 {
     mPixmap = new QPixmap(pixmap);
+    kPixmap = mPixmap;
+    mScene->clear();
+    mScene->addPixmap(pixmap);
+    mScene->setSceneRect(mScene->itemsBoundingRect());
+}
+
+void Framebuffer::UpdatePixmap(QPixmap pixmap)
+{
+    mPixmap = new QPixmap(pixmap);
     mScene->clear();
     mScene->addPixmap(pixmap);
     mScene->setSceneRect(mScene->itemsBoundingRect());
@@ -52,25 +61,70 @@ void Framebuffer::SetColorspace(int role)
     }
 
     QPixmap outPixmap = QPixmap::fromImage(image);
-    AddPixmap(outPixmap);
+    UpdatePixmap(outPixmap);
 }
 
 /*
     Returns void.
 
-    Sets the colorspace of the currently-viewed image. This loads
-    the current image, converts to the chosen colorspace, then
-    sets the current scene image to the converted image.
+    Sets the exposure of the currently-viewed image.
 */
 void Framebuffer::SetExposure(double value)
 {
-    QImage image(std::move(mPixmap)->toImage());
-    double red, green, blue;
-    int pixelsCount = image.width() * image.height();
-    unsigned int* pixels = (unsigned int*)image.bits();
+    QImage image(std::move(kPixmap)->toImage());
+
+    double minp = 1;
+    double maxp = 1000;
+    double minv = log(.01);
+    double maxv = log(10);
+    double scale = (maxv - minv) / (maxp - minp);
+    double factor = exp(minv + scale * (value - minp));
+
+    for (int y = 0; y < image.height(); y++)
+    {
+        for (int x = 0; x < image.width(); x++)
+        {
+            QPoint pos(x, y);
+            QColor pixel(image.pixel(QPoint(x, y)));
+
+            
+            int newRed = pixel.red() * factor;
+            int newGreen = pixel.green() * factor;
+            int newBlue = pixel.blue() * factor;
+
+            if (newRed <= 255)
+            {
+                pixel.setRed(newRed);
+            }
+            else
+            {
+                pixel.setRed(255);
+            }
+
+            if (newGreen <= 255)
+            {
+                pixel.setGreen(newGreen);
+            }
+            else
+            {
+                pixel.setGreen(255);
+            }
+
+            if (newBlue <= 255)
+            {
+                pixel.setBlue(newBlue);
+            }
+            else
+            {
+                pixel.setBlue(255);
+            }
+
+            image.setPixelColor(pos, pixel);
+        }
+    }
 
     QPixmap outPixmap = QPixmap::fromImage(image);
-    AddPixmap(outPixmap);
+    UpdatePixmap(outPixmap);
 }
 
 /*

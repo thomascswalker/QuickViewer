@@ -23,6 +23,7 @@ QuickViewer::QuickViewer(QWidget *parent) :
 	(void)connect(ui->folderUp, &QPushButton::clicked, this, &QuickViewer::on_folderUpClicked);
 	(void)connect(ui->loadFiles, &QPushButton::clicked, this, &QuickViewer::on_loadFilesClicked);
 	(void)connect(ui->colorSpace, qOverload<int>(&QComboBox::currentIndexChanged), ui->framebuffer, &Framebuffer::SetColorspace);
+	(void)connect(ui->exposureSlider, qOverload<int>(&QSlider::valueChanged), ui->framebuffer, &Framebuffer::SetExposure);
 
 	// Connections for extended GUI items
 	(void)connect(ui->contentBrowserView, &QTableView::clicked, this, &QuickViewer::on_contentBrowserItemClicked);

@@ -23,6 +23,7 @@ public:
     explicit Framebuffer(QWidget* parent = Q_NULLPTR);
     ~Framebuffer();
     void AddPixmap(QPixmap pixmap);
+    void UpdatePixmap(QPixmap pixmap);
     void SetColorspace(int role);
     void SetExposure(double value);
 
@@ -32,6 +33,7 @@ signals:
 private:
     QGraphicsScene* mScene;
     QPixmap* mPixmap;
+    QPixmap* kPixmap;
     double mCurrentZoom;
     int mColorspace;
 
