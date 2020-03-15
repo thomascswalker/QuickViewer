@@ -1,4 +1,7 @@
 #include "framebuffer.h"
+#include "rendertask.h"
+#include <thread>
+#include <QThread>
 
 Framebuffer::Framebuffer(QWidget* parent) :
     QGraphicsView(parent)
@@ -43,25 +46,31 @@ void Framebuffer::UpdatePixmap(QPixmap pixmap)
 */
 void Framebuffer::SetColorspace(int role)
 {
-    mColorspace = Qt::UserRole + role;
+    /*
+        get image
+        start new thread
+        update image on new thread
+        return image
+        update viewport
+    */
 
-    QImage image(std::move(mPixmap)->toImage());
-    QColorSpace colorspace;
+    QThread* thread = new QThread();
+    RenderTask* task = new RenderTask(role, *mPixmap);
+    qDebug() << role;
+    
+    // move the task object to the thread BEFORE connecting any signal/slots
+    task->moveToThread(thread);
+    connect(thread, &QThread::started, task, &RenderTask::doWork);
+    connect(task, &RenderTask::workFinished, thread, &QThread::quit);
 
-    switch (mColorspace)
-    {
-        case Linear:
-            colorspace = QColorSpace(QColorSpace::SRgbLinear);
-            image.convertToColorSpace(colorspace);
-            break;
-        case sRGB:
-            colorspace = QColorSpace(QColorSpace::SRgb);
-            image.convertToColorSpace(colorspace);
-            break;
-    }
+    // Connect the work finished signal to the UpdatePixmap function
+    // in order to actually update the scene pixmap when it's complete
+    // Delete thread when tasks are finished
+    connect(task, &RenderTask::workFinished, this, &Framebuffer::UpdatePixmap);
+    connect(thread, &QThread::finished, thread, &RenderTask::deleteLater);
 
-    QPixmap outPixmap = QPixmap::fromImage(image);
-    UpdatePixmap(outPixmap);
+    // At this point we can start the thread
+    thread->start();
 }
 
 /*
@@ -71,7 +80,7 @@ void Framebuffer::SetColorspace(int role)
 */
 void Framebuffer::SetExposure(double value)
 {
-    QImage image(std::move(kPixmap)->toImage());
+    QImage image(kPixmap->toImage());
 
     double minp = 1;
     double maxp = 1000;
@@ -86,7 +95,6 @@ void Framebuffer::SetExposure(double value)
         {
             QPoint pos(x, y);
             QColor pixel(image.pixel(QPoint(x, y)));
-
             
             int newRed = pixel.red() * factor;
             int newGreen = pixel.green() * factor;
