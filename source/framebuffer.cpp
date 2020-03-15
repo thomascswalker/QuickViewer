@@ -46,28 +46,19 @@ void Framebuffer::UpdatePixmap(QPixmap pixmap)
 */
 void Framebuffer::SetColorspace(int role)
 {
-    /*
-        get image
-        start new thread
-        update image on new thread
-        return image
-        update viewport
-    */
-
     QThread* thread = new QThread();
     RenderTask* task = new RenderTask(role, *mPixmap);
-    qDebug() << role;
     
     // move the task object to the thread BEFORE connecting any signal/slots
     task->moveToThread(thread);
-    connect(thread, &QThread::started, task, &RenderTask::doWork);
-    connect(task, &RenderTask::workFinished, thread, &QThread::quit);
+    (void)connect(thread, &QThread::started, task, &RenderTask::SetColorspace);
+    (void)connect(task, &RenderTask::workFinished, thread, &QThread::quit);
 
     // Connect the work finished signal to the UpdatePixmap function
     // in order to actually update the scene pixmap when it's complete
     // Delete thread when tasks are finished
-    connect(task, &RenderTask::workFinished, this, &Framebuffer::UpdatePixmap);
-    connect(thread, &QThread::finished, thread, &RenderTask::deleteLater);
+    (void)connect(task, &RenderTask::workFinished, this, &Framebuffer::UpdatePixmap);
+    (void)connect(thread, &QThread::finished, thread, &RenderTask::deleteLater);
 
     // At this point we can start the thread
     thread->start();
@@ -80,59 +71,23 @@ void Framebuffer::SetColorspace(int role)
 */
 void Framebuffer::SetExposure(double value)
 {
-    QImage image(kPixmap->toImage());
+    QThread* thread = new QThread();
+    RenderTask* task = new RenderTask(value, *kPixmap);
 
-    double minp = 1;
-    double maxp = 1000;
-    double minv = log(.01);
-    double maxv = log(10);
-    double scale = (maxv - minv) / (maxp - minp);
-    double factor = exp(minv + scale * (value - minp));
+    // move the task object to the thread BEFORE connecting any signal/slots
+    task->moveToThread(thread);
+    (void)connect(thread, &QThread::started, task, &RenderTask::SetExposure);
+    (void)connect(task, &RenderTask::workFinished, thread, &QThread::quit);
 
-    for (int y = 0; y < image.height(); y++)
-    {
-        for (int x = 0; x < image.width(); x++)
-        {
-            QPoint pos(x, y);
-            QColor pixel(image.pixel(QPoint(x, y)));
-            
-            int newRed = pixel.red() * factor;
-            int newGreen = pixel.green() * factor;
-            int newBlue = pixel.blue() * factor;
+    // Connect the work finished signal to the UpdatePixmap function
+    // in order to actually update the scene pixmap when it's complete
+    // Delete thread when tasks are finished
+    (void)connect(task, &RenderTask::workUpdated, this, &Framebuffer::UpdatePixmap);
+    (void)connect(task, &RenderTask::workFinished, this, &Framebuffer::UpdatePixmap);
+    (void)connect(thread, &QThread::finished, thread, &RenderTask::deleteLater);
 
-            if (newRed <= 255)
-            {
-                pixel.setRed(newRed);
-            }
-            else
-            {
-                pixel.setRed(255);
-            }
-
-            if (newGreen <= 255)
-            {
-                pixel.setGreen(newGreen);
-            }
-            else
-            {
-                pixel.setGreen(255);
-            }
-
-            if (newBlue <= 255)
-            {
-                pixel.setBlue(newBlue);
-            }
-            else
-            {
-                pixel.setBlue(255);
-            }
-
-            image.setPixelColor(pos, pixel);
-        }
-    }
-
-    QPixmap outPixmap = QPixmap::fromImage(image);
-    UpdatePixmap(outPixmap);
+    // At this point we can start the thread
+    thread->start();
 }
 
 /*
