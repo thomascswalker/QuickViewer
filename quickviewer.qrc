@@ -1,4 +1,11 @@
 <RCC>
-    <qresource prefix="QuickViewer">
-    </qresource>
+  <qresource prefix="QuickViewer">
+    <file>images/zoom.png</file>
+    <file>images/channels.png</file>
+    <file>images/gamma.png</file>
+    <file>images/back.png</file>
+    <file>images/exposure.png</file>
+    <file>images/load.png</file>
+    <file>images/up.png</file>
+  </qresource>
 </RCC>
