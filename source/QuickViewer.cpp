@@ -9,7 +9,7 @@ QuickViewer::QuickViewer(QWidget *parent) :
 {
 	// Initial UI setup functions
 	ui->setupUi(this);
-	setupFramebuffer();
+	//setupFramebuffer();
 	setupModels();
 	setupPalette();
 
@@ -22,13 +22,13 @@ QuickViewer::QuickViewer(QWidget *parent) :
 	(void)connect(ui->fileView, &QTableView::clicked, this, &QuickViewer::on_fileViewItemClicked);
 	(void)connect(ui->folderUp, &QPushButton::clicked, this, &QuickViewer::on_folderUpClicked);
 	(void)connect(ui->loadFiles, &QPushButton::clicked, this, &QuickViewer::on_loadFilesClicked);
-	(void)connect(ui->colorSpace, qOverload<int>(&QComboBox::currentIndexChanged), ui->framebuffer, &Framebuffer::SetColorspace);
-	(void)connect(ui->exposureSlider, qOverload<int>(&QSlider::valueChanged), ui->framebuffer, &Framebuffer::SetExposure);
+	//(void)connect(ui->colorSpace, qOverload<int>(&QComboBox::currentIndexChanged), ui->framebuffer, &Framebuffer::SetColorspace);
+	//(void)connect(ui->exposureSlider, qOverload<int>(&QSlider::valueChanged), ui->framebuffer, &Framebuffer::SetExposure);
 
 	// Connections for extended GUI items
 	(void)connect(ui->contentBrowserView, &QTableView::clicked, this, &QuickViewer::on_contentBrowserItemClicked);
 	(void)connect(ui->contentBrowserView->selectionModel(), qOverload<const QItemSelection&, const QItemSelection&>(&QItemSelectionModel::selectionChanged), this, &QuickViewer::on_contentBrowserItemSelected);
-	(void)connect(ui->framebuffer, &Framebuffer::middleMouseScroll, this, &QuickViewer::on_zoomMiddleMouseScroll);
+	//(void)connect(ui->framebuffer, &Framebuffer::middleMouseScroll, this, &QuickViewer::on_zoomMiddleMouseScroll);
 
 	// Connections for models
 	(void)connect(fileModel, &QFileSystemModel::directoryLoaded, this, &QuickViewer::on_directoryLoaded);
@@ -49,10 +49,10 @@ QuickViewer::~QuickViewer()
 	This sets up the framebuffer scene and an empty
 	pixmap as a placeholder.
 */
-void QuickViewer::setupFramebuffer()
-{
-
-}
+//void QuickViewer::setupFramebuffer()
+//{
+//
+//}
 
 /*
 	Returns void.
@@ -140,7 +140,7 @@ void QuickViewer::on_zoomPercentChanged(int percent)
 	qreal scaleTo = 1.0 * percent / 100.0;
 	qreal scaleFactor = scaleTo / currentScale;
 	currentScale = scaleTo;
-	ui->framebuffer->scale(scaleFactor, scaleFactor);
+	//ui->framebuffer->scale(scaleFactor, scaleFactor);
 }
 
 /*
@@ -318,7 +318,7 @@ void QuickViewer::on_loadFilesClicked()
 			{
 				i++;
 
-				ui->framebuffer->AddPixmap(pixmap);
+				//ui->framebuffer->AddPixmap(pixmap);
 
 				// Get the stripped filename
 				QFileInfo fileInfo(QFile(filepath).fileName());
@@ -374,7 +374,7 @@ void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 	QVariant cachekey = item.GetCacheKey();
 	QPixmapCache::find(cachekey.toByteArray(), &pixmap);
 
-	ui->framebuffer->AddPixmap(pixmap);
+	//ui->framebuffer->AddPixmap(pixmap);
 
 	// For each property in the selected item, we need to
 	// update the property view row-by-row.

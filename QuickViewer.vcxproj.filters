@@ -48,9 +48,6 @@
     <QtMoc Include="source\propertiesmodel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="source\rendertask.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\fileloader.h">
@@ -60,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\propertiesitem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rendertask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -97,7 +97,7 @@
     <ClInclude Include="source\contentbrowseritem.h" />
     <ClInclude Include="source\fileloader.h" />
     <ClInclude Include="source\propertiesitem.h" />
-    <QtMoc Include="source\rendertask.h" />
+    <ClInclude Include="source\rendertask.h" />
     <QtMoc Include="source\propertiesmodel.h" />
     <QtMoc Include="source\quickviewer.h" />
     <QtMoc Include="source\framebuffer.h" />

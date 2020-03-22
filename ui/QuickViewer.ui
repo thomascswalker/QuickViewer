@@ -329,14 +329,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="0" column="0">
-           <widget class="Framebuffer" name="framebuffer">
-            <property name="dragMode">
-             <enum>QGraphicsView::ScrollHandDrag</enum>
-            </property>
-            <property name="resizeAnchor">
-             <enum>QGraphicsView::AnchorViewCenter</enum>
-            </property>
-           </widget>
+           <widget class="Framebuffer" name="openGLWidget"/>
           </item>
          </layout>
         </widget>
@@ -830,7 +823,7 @@
  <customwidgets>
   <customwidget>
    <class>Framebuffer</class>
-   <extends>QGraphicsView</extends>
+   <extends>QOpenGLWidget</extends>
    <header>framebuffer.h</header>
   </customwidget>
  </customwidgets>

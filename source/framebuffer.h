@@ -1,44 +1,22 @@
 #ifndef	FRAMEBUFFER_H
 #define FRAMEBUFFER_H
 
-#include <QDebug>
-#include <QWidget>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QPixmap>
-#include <QWheelEvent>
-#include <QColorSpace>
+#include <QOpenGLWidget>
 
-class Framebuffer : public QGraphicsView
+class RenderTask;
+
+class Framebuffer : public QOpenGLWidget
 {
     Q_OBJECT
 
 public:
-    enum Colorspaces {
-        Linear = Qt::UserRole,
-        sRGB = Qt::UserRole + 1
-    };
-
-    explicit Framebuffer(QWidget* parent = Q_NULLPTR);
-    ~Framebuffer();
-    void AddPixmap(QPixmap pixmap);
-    void UpdatePixmap(QPixmap pixmap);
-    void SetColorspace(int role);
-    void SetExposure(double value);
-
-signals:
-    void middleMouseScroll(double zoom);
-
-private:
-    QGraphicsScene* mScene;
-    QPixmap* mPixmap;
-    QPixmap* kPixmap;
-    double mCurrentZoom;
-    int mColorspace;
+    Framebuffer(QWidget* parent);
 
 protected:
-    void wheelEvent(QWheelEvent* event);
+    void paintEvent(QPaintEvent* event) override;
+
+private:
+    RenderTask* rendertask;
 };
 
 #endif

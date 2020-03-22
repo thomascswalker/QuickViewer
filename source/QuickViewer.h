@@ -3,7 +3,7 @@
 
 #include "ui_QuickViewer.h"
 #include "fileloader.h"
-#include "framebuffer.h"
+//#include "framebuffer.h"
 #include "contentbrowsermodel.h"
 #include "propertiesmodel.h"
 
@@ -22,6 +22,7 @@
 #include <QMessageBox>
 #include <QScrollBar>
 #include <QRectF>
+#include <QtGui>
 
 namespace Ui {
 	class QuickViewer;
@@ -34,7 +35,7 @@ class QuickViewer : public QMainWindow
 public:
 	explicit QuickViewer(QWidget *parent = Q_NULLPTR);
 	~QuickViewer();
-	void setupFramebuffer();
+	//void setupFramebuffer();
 	void setupPalette();
 	void setupModels();
 
@@ -55,7 +56,6 @@ public slots:
 
 private:
 	Ui::QuickViewerClass* ui;
-	Framebuffer* buffer;
 	QFileSystemModel* fileModel;
 	ContentBrowserModel* contentModel;
 	PropertiesModel* propertiesModel;
@@ -64,6 +64,8 @@ private:
 	QSize origSize;
 	QSize dispSize;
 	QSize proxySize;
+
+	
 };
 
 #endif
