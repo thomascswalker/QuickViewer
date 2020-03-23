@@ -40,7 +40,7 @@ public:
 	void setupModels();
 
 public slots:
-	void resizeEvent(QResizeEvent*);
+	void resizeEvent(QResizeEvent* event);
 
 	void on_zoomPercentChanged(int percent);
 	void on_zoomMiddleMouseScroll(double zoom);

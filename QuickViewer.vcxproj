@@ -44,6 +44,7 @@
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtInstall>5.14.1</QtInstall>
     <QtModules>core;gui;multimedia;multimediawidgets;widgets</QtModules>
+    <QMakeCodeLines>LIBS += -lopengl32 -lglu32;$(QMakeCodeLines)</QMakeCodeLines>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtInstall>5.14.1</QtInstall>

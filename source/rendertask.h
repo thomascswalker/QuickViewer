@@ -11,7 +11,7 @@ class RenderTask
 public:
     RenderTask();
     ~RenderTask();
-    void paint(QPainter* painter, QPaintEvent* event);
+    void RenderFrame(QPainter* painter, QPaintEvent *event, QImage image, QPoint pos, qreal scale);
 
 private:
     QBrush mBackground;

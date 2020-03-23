@@ -122,10 +122,9 @@ void QuickViewer::setupPalette()
 	 This resizes the pixmap currently in the framebuffer to maintain the
 	 correct aspect ratio for the current pixmap being viewed.
  */
-void QuickViewer::resizeEvent(QResizeEvent*)
+void QuickViewer::resizeEvent(QResizeEvent* event)
 {
 	double factor = 1.0;
-	//ui->framebuffer->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
 }
 
 /*
@@ -317,7 +316,11 @@ void QuickViewer::on_loadFilesClicked()
 			if (!pixmap.isNull())
 			{
 				i++;
-
+				
+				QImage image = pixmap.toImage();
+				ui->framebuffer->SetImage(image);
+				//ui->framebuffer->repaint();
+				//ui->framebuffer->drawImage();
 				//ui->framebuffer->AddPixmap(pixmap);
 
 				// Get the stripped filename
