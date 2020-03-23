@@ -1,5 +1,6 @@
 #include "framebuffer.h"
 #include "rendertask.h"
+#include <QtGui>
 
 Framebuffer::Framebuffer(QWidget* parent)
     : QOpenGLWidget(parent)
@@ -97,15 +98,23 @@ void Framebuffer::paintEvent(QPaintEvent* event)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     QPainter painter(this);
-    painter.begin(this);
+
+    if (!painter.isActive())
+    {
+        painter.begin(this);
+    }
 
     painter.setRenderHint(QPainter::Antialiasing);
     rendertask->RenderFrame(&painter, event, mImage, QPoint(xPos, yPos), mScale);
 
-    painter.end();
+    if (painter.isActive())
+    {
+        painter.end();
+    }
 }
 
 void Framebuffer::SetImage(QImage image)
 {
     mImage = image;
+    update();
 }

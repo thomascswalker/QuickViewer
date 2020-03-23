@@ -33,7 +33,6 @@ protected:
 private:
     RenderTask* rendertask;
     QImage mImage;
-    GLuint mTextureID;
 
     int xPos;
     int yPos;

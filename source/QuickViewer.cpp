@@ -319,9 +319,6 @@ void QuickViewer::on_loadFilesClicked()
 				
 				QImage image = pixmap.toImage();
 				ui->framebuffer->SetImage(image);
-				//ui->framebuffer->repaint();
-				//ui->framebuffer->drawImage();
-				//ui->framebuffer->AddPixmap(pixmap);
 
 				// Get the stripped filename
 				QFileInfo fileInfo(QFile(filepath).fileName());
