@@ -9,7 +9,6 @@ QuickViewer::QuickViewer(QWidget *parent) :
 {
 	// Initial UI setup functions
 	ui->setupUi(this);
-	//setupFramebuffer();
 	setupModels();
 	setupPalette();
 
@@ -32,7 +31,6 @@ QuickViewer::QuickViewer(QWidget *parent) :
 
 	// Connections for models
 	(void)connect(fileModel, &QFileSystemModel::directoryLoaded, this, &QuickViewer::on_directoryLoaded);
-
 }
 
 /*
@@ -42,17 +40,6 @@ QuickViewer::~QuickViewer()
 {
 	delete ui;
 }
-
-/*
-	Returns void.
-
-	This sets up the framebuffer scene and an empty
-	pixmap as a placeholder.
-*/
-//void QuickViewer::setupFramebuffer()
-//{
-//
-//}
 
 /*
 	Returns void.
@@ -374,7 +361,8 @@ void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 	QVariant cachekey = item.GetCacheKey();
 	QPixmapCache::find(cachekey.toByteArray(), &pixmap);
 
-	//ui->framebuffer->AddPixmap(pixmap);
+	QImage image = pixmap.toImage();
+	ui->framebuffer->SetImage(image);
 
 	// For each property in the selected item, we need to
 	// update the property view row-by-row.

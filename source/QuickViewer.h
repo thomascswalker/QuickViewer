@@ -35,7 +35,6 @@ class QuickViewer : public QMainWindow
 public:
 	explicit QuickViewer(QWidget *parent = Q_NULLPTR);
 	~QuickViewer();
-	//void setupFramebuffer();
 	void setupPalette();
 	void setupModels();
 
@@ -64,8 +63,6 @@ private:
 	QSize origSize;
 	QSize dispSize;
 	QSize proxySize;
-
-	
 };
 
 #endif
