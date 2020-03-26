@@ -374,7 +374,7 @@ void QuickViewer::on_contentBrowserItemClicked(const QModelIndex& index)
 	QVariant cachekey = item.GetCacheKey();
 	QPixmapCache::find(cachekey.toByteArray(), &pixmap);
 
-	//ui->framebuffer->AddPixmap(pixmap);
+	ui->framebuffer->SetImage(pixmap.toImage());
 
 	// For each property in the selected item, we need to
 	// update the property view row-by-row.

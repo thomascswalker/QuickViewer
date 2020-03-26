@@ -14,7 +14,7 @@ class Framebuffer : public QOpenGLWidget
 
 public:
     Framebuffer(QWidget* parent);
-    void paintEvent(QPaintEvent* event) override;
+    //void paintEvent(QPaintEvent* event) override;
     void wheelEvent(QWheelEvent* event);
     void SetImage(QImage image);
 
@@ -34,8 +34,10 @@ private:
     RenderTask* rendertask;
     QImage mImage;
 
-    int xPos;
-    int yPos;
+    float xPos;
+    float yPos;
+    float xOffset;
+    float yOffset;
     QPoint lastPos;
     qreal mScale;
 };
