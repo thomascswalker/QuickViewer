@@ -8,7 +8,9 @@ Framebuffer::Framebuffer(QWidget* parent)
     rendertask = new RenderTask();
 
     xPos = 0;
+    xOffset = 0;
     yPos = 0;
+    yOffset = 0;
     mScale = 1.0;
 }
 
@@ -30,21 +32,26 @@ void Framebuffer::initializeGL()
 void Framebuffer::resizeGL(int w, int h) 
 {
     glViewport(0, 0, w, h);
-    //glMatrixMode(GL_PROJECTION);
-    //float aspect = (float)w / (float)h;
-    //glOrtho(-aspect, aspect, -1, 1, -1, 1);
+    glMatrixMode(GL_PROJECTION);
+    float aspect = (float)w / (float)h;
+    glOrtho(-aspect, aspect, -1, 1, -1, 1);
 }
 
 void Framebuffer::paintGL()
 {
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //glTranslatef(xPos, yPos, 1.0f);
-    //glTranslatef(0.0f, 0.0f, 1.0f);
-    //glScalef(mScale, mScale, 1.0f);
-
-    glMatrixMode(GL_COLOR);
+    glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+    float aspect = (float)this->width() / (float)this->height();
+    glOrtho(-aspect, aspect, -1, 1, -1, 1);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glPushMatrix();
+    glTranslatef(xOffset, yOffset, 0.0f);
+    glScalef(mScale, mScale, 1.0f);
 
     glBegin(GL_QUADS);
         glVertex3f(-1, -1, 0);
@@ -52,39 +59,34 @@ void Framebuffer::paintGL()
         glVertex3f(1, 1, 0);
         glVertex3f(1, -1, 0);
     glEnd();
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    // Translation is 0 to 1
-    glTranslatef(xOffset, yOffset, 0.0f);
-
-    //QPainter p(this);
-    //p.setPen(Qt::red);
-    //p.drawLine(rect().topLeft(), rect().bottomRight());
 }
 
 void Framebuffer::setXPosition(int pos)
 {
+    qDebug() << pos;
     if (xPos != pos)
     {
         xPos = pos;
+        update();
     }
 }
 
 void Framebuffer::setYPosition(int pos)
 {
+    qDebug() << pos;
     if (yPos != pos)
     {
         yPos = pos;
+        update();
     }
 }
 
-void Framebuffer::setScale(qreal scale)
+void Framebuffer::setScale(float scale)
 {
     if (mScale != scale)
     {
         mScale *= scale;
+        update();
     }
 }
 
@@ -95,21 +97,23 @@ void Framebuffer::mousePressEvent(QMouseEvent* event)
 
 void Framebuffer::mouseMoveEvent(QMouseEvent* event)
 {
-    // First we need to normalize the width and height
-    // event input into 0 to 1
-    if (event->buttons() & Qt::LeftButton) {
-        float newX = (float)event->x() / (float)this->width();
-        float newY = (float)event->y() / (float)this->height();
+    if (event->buttons() & Qt::MiddleButton) {
+        int xDelta = event->x() - lastPos.x();
+        int yDelta = event->y() - lastPos.y();
 
-        float lastX = lastPos.x() / (float)this->width();
-        float lastY = lastPos.y() / (float)this->height();
+        qDebug() << "Delta:" << xDelta << yDelta;
 
-        float xOffset = newX - lastX;
-        float yOffset = newY - lastY;
+        //xOffset = (float)xDelta / (float)this->width();
+        //yOffset = (float)yDelta / (float)this->height();
+        //xOffset = (float)xDelta / 100.0f;
+        //yOffset = (float)yDelta / -100.0f;
+        xOffset = (float)event->x() / (float)this->width();
+        yOffset = (float)event->y() / -(float)this->height();
 
-        qDebug() << xOffset << yOffset;
+        qDebug() << "Offset:" << xOffset << yOffset;
 
-        lastPos = QPoint(newX, newY);
+        lastPos = event->pos();
+        update();
     }
 }
 
@@ -117,11 +121,11 @@ void Framebuffer::wheelEvent(QWheelEvent* event)
 {
     if (event->delta() >= 0)
     {
-        setScale(qreal(1.15));
+        setScale(float(1.15));
     }
     else
     {
-        setScale(qreal(.85));
+        setScale(float(.85));
     }
     
 }

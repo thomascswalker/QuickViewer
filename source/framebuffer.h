@@ -21,7 +21,7 @@ public:
 public slots:
     void setXPosition(int pos);
     void setYPosition(int pos);
-    void setScale(qreal scale);
+    void setScale(float scale);
 
 protected:
     void initializeGL();
@@ -34,12 +34,12 @@ private:
     RenderTask* rendertask;
     QImage mImage;
 
-    float xPos;
-    float yPos;
+    int xPos;
     float xOffset;
+    int yPos;
     float yOffset;
     QPoint lastPos;
-    qreal mScale;
+    float mScale;
 };
 
 #endif
